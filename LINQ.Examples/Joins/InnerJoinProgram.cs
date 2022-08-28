@@ -35,20 +35,55 @@ var compositeJoin = from b in Buyer.Buyers
                         b.District
                     };
 
-// all suppliers for that buyer
+// all suppliers for that buyer group inner join
 var groupByJoin = from b in Buyer.Buyers
                   join s in Supplier.Suppliers
-                  on b.District equals s.District into SuppliersGroup
+                  on b.District equals s.District into SuppliersGroup //Ienumerable<Suppliers>
                   select new
                   {
                       b.Name,
                       b.District,
                       // all suppliers for that buyer
-                      data= SuppliersGroup
+                      //data= SuppliersGroup
+                      data = from sg in SuppliersGroup
+                             orderby sg.SupplierName descending
+                             select sg
                   };
-                  
-                  
 
+var leftJoin = from s in Supplier.Suppliers
+               join b in Buyer.BuyersLeftJoin
+               on s.District equals b.District into buyersGroup
+               from bg in buyersGroup.DefaultIfEmpty()
+               select new
+               {
+                   s.SupplierName,
+                   s.District,
+                   buyer= bg?.Name ?? "None"
+               };
+
+// find suppliers with no buyers
+var leftJoin2 = from s in Supplier.Suppliers
+               join b in Buyer.BuyersLeftJoin
+               on s.District equals b.District into buyersGroup
+               from bg in buyersGroup.DefaultIfEmpty()
+               where bg == null
+               select new
+               {
+                   s.SupplierName,
+                   s.District,
+                   buyer = buyersGroup
+               };
+
+
+
+foreach (var item in leftJoin2)
+{
+    Console.WriteLine($"SupplierName: {item.SupplierName}. District: {item.District}");
+    foreach (var b in item.buyer)
+    {
+        Console.WriteLine(b.Name);
+    }
+}
                
 
 

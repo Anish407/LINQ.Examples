@@ -33,4 +33,14 @@ internal class Buyer
                 new Buyer() { Name = "Jaime", District = "Developers District", Age = 35 },
                 new Buyer() { Name = "Pierce", District = "Fantasy District", Age = 40 }
     };
+
+    public static List<Buyer> BuyersLeftJoin => new List<Buyer>()
+    {
+                new Buyer() { Name = "Johny", District = "Fantasy District", Age = 22},
+                new Buyer() { Name = "Peter", District = "Scientists District", Age = 40},
+                new Buyer() { Name = "Paul", District = "Fantasy District", Age = 30 },
+                new Buyer() { Name = "Maria", District = "Scientists District", Age = 35 },
+                new Buyer() { Name = "Rebecca", District = "Scientists District", Age = 30 },
+                new Buyer() { Name = "Pierce", District = "Fantasy District", Age = 40 }
+    };
 }
